@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#080f1e">
+<meta name="theme-color" content="#f5f6fa">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="מקלט קרוב">
 <title>מקלט קרוב — רמת גן</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
 <style>
-:root{--bg:#080f1e;--surface:#0d1a2d;--surface2:#122036;--border:rgba(255,255,255,0.08);--red:#e63946;--red-glow:rgba(230,57,70,0.35);--green:#2ecc71;--text:#e8eaf0;--muted:#6b7a99;--accent:#4cc9f0;}
+:root{--bg:#f5f6fa;--surface:#ffffff;--surface2:#f0f2f8;--border:rgba(0,0,0,0.10);--red:#e63946;--red-glow:rgba(230,57,70,0.35);--green:#2ecc71;--text:#1a2340;--muted:#7a8aaa;--accent:#2563eb;}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);overflow:hidden;}
 #app{display:flex;flex-direction:column;height:100vh;}
@@ -26,17 +26,17 @@ html,body{height:100%;font-family:'Heebo',sans-serif;background:var(--bg);color:
 .btn-icon.active{background:var(--green);border-color:var(--green);color:#000;}
 #map-wrap{flex:1;position:relative;overflow:hidden;min-height:0;}
 #map{width:100%;height:100%;}
-.leaflet-tile{filter:brightness(0.85) saturate(1.1);}
+.leaflet-tile{filter:none;}
 #btn-locate{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:500;background:var(--red);color:#fff;border:none;border-radius:50px;padding:15px 30px;font-family:'Heebo',sans-serif;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 4px 28px var(--red-glow),0 2px 10px rgba(0,0,0,0.5);display:flex;align-items:center;gap:9px;transition:all 0.2s;white-space:nowrap;}
 #btn-locate:active{transform:translateX(-50%) scale(0.95);}
-#btn-locate.loading{background:#2a3550;pointer-events:none;}
+#btn-locate.loading{background:#aab0c0;pointer-events:none;}
 .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;display:none;}
 @keyframes spin{to{transform:rotate(360deg)}}
 #btn-locate.loading .spinner{display:block;}
 #btn-locate.loading .btn-txt{display:none;}
-#acc-toggle{position:absolute;top:12px;left:12px;z-index:500;background:rgba(13,26,45,0.92);border:1px solid var(--border);border-radius:10px;padding:8px 13px;font-family:'Heebo',sans-serif;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.2s;backdrop-filter:blur(8px);}
+#acc-toggle{position:absolute;top:12px;left:12px;z-index:500;background:rgba(255,255,255,0.95);border:1px solid var(--border);border-radius:10px;padding:8px 13px;font-family:'Heebo',sans-serif;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.2s;backdrop-filter:blur(8px);}
 #acc-toggle.active{background:rgba(46,204,113,0.18);color:var(--green);border-color:var(--green);}
-#status-card{position:absolute;top:12px;right:12px;z-index:500;background:rgba(13,26,45,0.92);border:1px solid var(--border);border-radius:12px;padding:9px 13px;font-size:12px;color:var(--muted);align-items:center;gap:7px;display:none;backdrop-filter:blur(10px);}
+#status-card{position:absolute;top:12px;right:12px;z-index:500;background:rgba(255,255,255,0.95);border:1px solid var(--border);border-radius:12px;padding:9px 13px;font-size:12px;color:var(--muted);align-items:center;gap:7px;display:none;backdrop-filter:blur(10px);}
 #status-card.show{display:flex;}
 #status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:blink 1.5s ease-in-out infinite;flex-shrink:0;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.15}}
@@ -77,7 +77,7 @@ html,body{height:100%;font-family:'Heebo',sans-serif;background:var(--bg);color:
 @keyframes loadpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
 .load-title{font-size:24px;font-weight:900;}
 .load-sub{font-size:13px;color:var(--muted);}
-#toast{position:fixed;bottom:110px;left:50%;transform:translateX(-50%) translateY(20px);z-index:2000;background:#1e2f4a;border:1px solid var(--border);border-radius:12px;padding:11px 20px;font-size:13px;font-weight:600;opacity:0;transition:all 0.3s;white-space:nowrap;pointer-events:none;}
+#toast{position:fixed;bottom:110px;left:50%;transform:translateX(-50%) translateY(20px);z-index:2000;background:#ffffff;border:1px solid var(--border);border-radius:12px;padding:11px 20px;font-size:13px;font-weight:600;opacity:0;transition:all 0.3s;white-space:nowrap;pointer-events:none;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 #bottom-panel::-webkit-scrollbar{width:3px;}
 #bottom-panel::-webkit-scrollbar-thumb{background:var(--border);}
